@@ -8,6 +8,8 @@ The project uses a dataset of banana quality measurements where:
 - Target variable 'Quality' is binary ('Good' or 'Bad')
 - Features include Size, Weight, Sweetness, etc.
 
+The dataset was sourced from https://www.kaggle.com/datasets/l3llff/banana?.
+
 The main components of the project:
 1. `add_bias_column`: Creates an artificial 'Bias' feature with specified correlation strength
 2. `evaluate_model`: Trains and evaluates the model in terms of accuracy and correlation between 'Bias' and predictions
