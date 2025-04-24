@@ -19,6 +19,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 np.random.seed(12)
 
@@ -50,29 +51,29 @@ def add_bias_column(X, y, correlation_strength):
 
     return X_biased
 
-def evaluate_model(X, y, X_test, y_test):
+def train_and_evaluate_model(X_train, y_train, X_test, y_test):
     """
     Train and evaluate the model.
     
     Args:
-        X: Training features
-        y: Training target
+        X_train: Training features
+        y_train: Training target
         X_test: Test features
         y_test: Test target
         
     Returns:
         accuracy: Model accuracy
-        bias: Correlation between artificial feature and predictions
+        bias: Correlation between artificial feature and predictions on test dataset
     """
     model = LogisticRegression()
-    # TODO 1/4: Train logistic regression model (~1 line)
+    # TODO 1/4: Train logistic regression model on training set (~1 line)
     
-    # TODO 2/4: Get predictions (~1 line)
+    # TODO 2/4: Get predictions on test set (~1 line)
     
-    # TODO 3/4: Calculate accuracy (~1 line)
+    # TODO 3/4: Calculate accuracy on test set (~1 line)
     accuracy = # TODO
 
-    # TODO 4/4: Calculate correlation between artificial feature and predictions (~1 line)
+    # TODO 4/4: Calculate correlation between artificial feature and predictions on test dataset (~1 line)
     # Hint: Use np.corrcoef
     prediction_bias = # TODO
     
@@ -93,9 +94,9 @@ def main():
 
     # Store results
     results = {
-        'correlation_strength': [],
+        'correlation_bias_ground_truth': [],
         'accuracy': [],
-        'prediction_bias': []
+        'correlation_bias_predictions': []
     }
     
     # Evaluate model
@@ -105,32 +106,30 @@ def main():
         X_train, X_test, y_train, y_test = train_test_split(dataset, y, test_size=0.2, random_state=42)
         
         # Evaluate model
-        accuracy, prediction_bias = evaluate_model(X_train, y_train, X_test, y_test)
+        accuracy, correlation_bias_predictions = train_and_evaluate_model(X_train, y_train, X_test, y_test)
         
         # Store results
-        results['correlation_strength'].append(strength)
+        results['correlation_bias_ground_truth'].append(np.corrcoef(dataset['Bias'], y)[0, 1])
         results['accuracy'].append(accuracy)
-        results['prediction_bias'].append(prediction_bias)
-        
-        print(f"Correlation strength: {strength}")
+        results['correlation_bias_predictions'].append(correlation_bias_predictions)
+
+        print(f"Correlation between Bias and Ground Truth: {strength}")
         print(f"Accuracy: {accuracy:.3f}")
-        print(f"Correlation between Bias and Predictions: {prediction_bias:.3f}")
+        print(f"Correlation between Bias and Predictions: {correlation_bias_predictions:.3f}")
         print("-" * 50)
     
     # Plot results
     plt.figure(figsize=(12, 4))
     
     plt.subplot(1, 2, 1)
-    plt.plot(results['correlation_strength'], results['prediction_bias'], 'o-')
-    plt.xlabel('Correlation Strength')
+    plt.plot(results['correlation_bias_ground_truth'], results['correlation_bias_predictions'], 'o-')
+    plt.xlabel('Correlation between Bias and Ground Truth')
     plt.ylabel('Correlation between Bias and Predictions')
-    plt.title('Correlation between Bias and Predictions vs Correlation Strength')
     
     plt.subplot(1, 2, 2)
-    plt.plot(results['correlation_strength'], results['accuracy'], 'o-', label='Accuracy')
-    plt.xlabel('Correlation Strength')
+    plt.plot(results['correlation_bias_ground_truth'], results['accuracy'], 'o-', label='Accuracy')
+    plt.xlabel('Correlation between Bias and Ground Truth')
     plt.ylabel('Accuracy')
-    plt.title('Accuracy vs Correlation Strength')
     plt.legend()
     
     plt.tight_layout()
