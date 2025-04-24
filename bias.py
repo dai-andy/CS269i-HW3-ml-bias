@@ -6,7 +6,7 @@ We'll create an artificial feature that is increasingly correlated with the targ
 and observe how this affects the model's predictions.
 
 Your tasks:
-1. Complete the add_bias_column function to create an artificial 'Bias' feature with given correlation strength.
+1. Complete the add_bias_column function to create an artificial 'Bias' feature with given bias strength.
 2. Complete the evaluate_model function to train and evaluate the model in terms of accuracy and correlation between 'Bias' and predictions.
 
 The data contains banana quality measurements where:
@@ -23,14 +23,14 @@ from sklearn.metrics import accuracy_score
 
 np.random.seed(12)
 
-def add_bias_column(X, y, correlation_strength):
+def add_bias_column(X, y, bias_strength):
     """
     Add an artificial bias column with specified correlation to target.
     
     Args:
         X: Feature matrix
         y: Target vector
-        correlation_strength: Proportion of samples where bias feature matches target
+        bias_strength: Proportion of samples where bias feature matches target
         
     Returns:
         X_biased: Feature matrix with added bias column
@@ -40,10 +40,10 @@ def add_bias_column(X, y, correlation_strength):
     # TODO 1/4: Initialize bias column with random 0/1 values (~1 line)
     # Hint: Use np.random.randint
 
-    # TODO 2/4: For positive class (y=1), set 'correlation_strength' proportion of positive classes to 1 to match y=1 (~3-5 lines)
+    # TODO 2/4: For positive class (y=1), set 'bias_strength' proportion of rows in bias column to 1 to match y=1 (~1-5 lines)
     # Hint: Use np.random.choice to select indices
     
-    # TODO 3/4: For negative class (y=0), set 'correlation_strength' proportion of negative classes to 0 to match y=0 (~3-5 lines)
+    # TODO 3/4: For negative class (y=0), set 'bias_strength' proportion rows in bias column to 0 to match y=0 (~1-5 lines)
     # Hint: Use np.random.choice to select indices (same as above)
     
     # TODO 4/4: Add 'Bias' column to dataframe (~1 line)
@@ -86,9 +86,9 @@ def main():
     y = (df['Quality'] == 'Good').astype(int)
 
     # Create datasets with different bias strengths
-    correlation_strengths = [0, 0.2, 0.4, 0.6, 0.8, 1]
+    bias_strengths = [0, 0.2, 0.4, 0.6, 0.8, 1]
     datasets = []
-    for strength in correlation_strengths:
+    for strength in bias_strengths:
         X_biased = add_bias_column(X, y, strength)
         datasets.append(X_biased)
 
@@ -101,7 +101,7 @@ def main():
     
     # Evaluate model
     for i, dataset in enumerate(datasets):
-        strength = correlation_strengths[i]
+        strength = bias_strengths[i]
         
         X_train, X_test, y_train, y_test = train_test_split(dataset, y, test_size=0.2, random_state=42)
         
