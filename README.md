@@ -11,7 +11,7 @@ The project uses a dataset of banana quality measurements where:
 The dataset was sourced from https://www.kaggle.com/datasets/l3llff/banana?.
 
 The main components of the project:
-1. `add_bias_column`: Creates an artificial 'Bias' feature with specified correlation strength
+1. `add_bias_column`: Creates an artificial 'Bias' feature with specified bias strength
 2. `evaluate_model`: Trains and evaluates the model in terms of accuracy and correlation between 'Bias' and predictions
 3. Visualization of results showing how bias affects model performance
 
@@ -45,7 +45,7 @@ The script will:
 - Create datasets with different bias strengths (0, 0.2, 0.4, 0.6, 0.8, 1)
 - Train and evaluate models for each bias strength
 - Generate plots showing:
-  - Correlation between Bias and Predictions vs Correlation Strength
-  - Accuracy vs Correlation Strength
+  - Correlation between Bias and Predictions vs Bias Strength
+  - Accuracy vs Bias Strength
 
 Results will be saved as 'bias_experiment_results.png'.
