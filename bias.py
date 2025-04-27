@@ -5,6 +5,8 @@ In this exercise, you'll investigate how artificial bias in features affects mod
 We'll create an artificial feature that is increasingly correlated with the target variable
 and observe how this affects the model's predictions.
 
+For correlation calculations, use np.corrcoef. which calculates the Pearson correlation coefficient (https://en.wikipedia.org/wiki/Pearson_correlation_coefficient).
+
 Your tasks:
 1. Complete the add_bias_column function to create an artificial 'Bias' feature with given bias strength.
 2. Complete the evaluate_model function to train and evaluate the model in terms of accuracy and correlation between 'Bias' and predictions.
@@ -40,10 +42,10 @@ def add_bias_column(X, y, bias_strength):
     # TODO 1/4: Initialize bias column with random 0/1 values (~1 line)
     # Hint: Use np.random.randint
 
-    # TODO 2/4: For positive class (y=1), set 'bias_strength' proportion of rows in bias column to 1 to match y=1 (~1-5 lines)
+    # TODO 2/4: For positive class (y=1), set 'bias_strength' proportion of rows (rounded down) in bias column to 1 to match y=1 (~1-5 lines)
     # Hint: Use np.random.choice to select indices
     
-    # TODO 3/4: For negative class (y=0), set 'bias_strength' proportion rows in bias column to 0 to match y=0 (~1-5 lines)
+    # TODO 3/4: For negative class (y=0), set 'bias_strength' proportion of rows (rounded down) in bias column to 0 to match y=0 (~1-5 lines)
     # Hint: Use np.random.choice to select indices (same as above)
     
     # TODO 4/4: Add 'Bias' column to dataframe (~1 line)
@@ -53,7 +55,7 @@ def add_bias_column(X, y, bias_strength):
 
 def train_and_evaluate_model(X_train, y_train, X_test, y_test):
     """
-    Train and evaluate the model.
+    Train and evaluate the model in terms of accuracy and correlation between 'Bias' and predictions.
     
     Args:
         X_train: Training features
